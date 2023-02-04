@@ -8,7 +8,7 @@ class PasajeroRepo():
         return db.execute(select(PasajeroBD).order_by(PasajeroBD.nombre)).scalars().all()
     
     def get_by_id(self, db: Session, id: int):
-        result = db.execute(select(PasajeroBD).where(PasajeroBD.id == id)).scalar()
+        result = db.execute(select(PasajeroBD).where(PasajeroBD.dni == id)).scalar()
         return result
 
     def agregar(self, db:Session, datos:Pasajero): 

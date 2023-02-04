@@ -4,9 +4,11 @@ from sqlalchemy.orm import Session
 from modelos.pasajes import Pasaje
 from repos.pasajes_repo import PasajeRepo
 from modelos.pasajes import PasajeSinCod
+from repos.asientos_repo import AsientoRepo
 
 pasaje_api = APIRouter(prefix='/pasajes', tags=['pasajes'])
 pasaje_repo = PasajeRepo()
+asiento_repo = AsientoRepo()
 
 @pasaje_api.get('', response_model=list[Pasaje])
 def get_all(db:Session = Depends(get_db)):
@@ -36,6 +38,7 @@ def modificar(id:int, datos:Pasaje, db:Session = Depends(get_db)):
 
 @pasaje_api.delete('/{id}', status_code=204)
 def borrar(id:int, db:Session = Depends(get_db)):
+    asiento_repo.modif_por_pasaje(db,id)
     result = pasaje_repo.borrar(db, id)
     if result is None:
         raise HTTPException(status_code=404, detail='Pasaje no encontrado')

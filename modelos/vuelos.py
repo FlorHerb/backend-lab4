@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from datetime import date, time
 from modelos.aviones import Avion
 from modelos.aeropuertos import Aeropuerto
+from typing import Optional
 
 class VueloSinCod(BaseModel):
     cod_origen_aero: str
@@ -9,12 +10,15 @@ class VueloSinCod(BaseModel):
     fecha: date
     hora: time
     cod_avion: str
-    avion: Avion = None
-    origen_aero : Aeropuerto = None
-    destino_aero : Aeropuerto = None
-    
+    avion: Optional[Avion]= None
+
     class Config:
         orm_mode = True
     
 class Vuelo(VueloSinCod):
-    codigo: str    
+    codigo: str
+    
+    
+class VueloConObj(Vuelo):
+    origen_aero : Aeropuerto = None
+    destino_aero : Aeropuerto = None        

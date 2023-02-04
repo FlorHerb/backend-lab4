@@ -5,8 +5,13 @@ class AsientoSinCod(BaseModel):
     num_asiento:int
     cod_vuelo:str
     id_pasaje:int = 0
-    pasaje: Pasaje = None
+    
+    class Config:
+        orm_mode = True
+     
+
     
 class Asiento(AsientoSinCod):
     id:int
+    pasaje: Pasaje = None
     

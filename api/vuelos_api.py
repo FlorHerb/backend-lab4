@@ -3,9 +3,13 @@ from database import get_db
 from sqlalchemy.orm import Session
 from modelos.vuelos import Vuelo
 from repos.vuelos_repo import VueloRepo
+from repos.asientos_repo import AsientoRepo
+from modelos.asientos import AsientoSinCod
+from modelos.vuelos import VueloSinCod
 
 vuelo_api = APIRouter(prefix='/vuelos', tags=['vuelos'])
 vuelo_repo = VueloRepo()
+asientos_repo = AsientoRepo()
 
 @vuelo_api.get('', response_model=list[Vuelo])
 def get_all(db:Session = Depends(get_db)):
@@ -22,6 +26,13 @@ def get_by_id(id: str, db:Session = Depends(get_db)):
 @vuelo_api.post('', response_model=Vuelo, status_code=201)
 def nuevo(datos:Vuelo, db:Session = Depends(get_db)):
     result = vuelo_repo.agregar(db, datos)
+    asiento:AsientoSinCod = AsientoSinCod(num_asiento=0,cod_vuelo='CCC',id_pasaje=0)
+    
+    for i in range(1,datos.avion.capacidad+1):
+        asiento.num_asiento=i
+        asiento.cod_vuelo=datos.codigo
+        asiento.id_pasaje=0
+        asientos_repo.agregar(db,asiento)
     return result
 
 

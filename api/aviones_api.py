@@ -22,6 +22,8 @@ def get_by_id(id: str, db:Session = Depends(get_db)):
 @avion_api.post('', response_model=Avion, status_code=201)
 def nuevo(datos:Avion, db:Session = Depends(get_db)):
     result = avion_repo.agregar(db, datos)
+    if result is None:
+        raise HTTPException(status_code=400,detail='El largo del código es incorrecto')
     return result
 
 

@@ -27,7 +27,7 @@ def nuevo(datos:CiudadSinId, db:Session = Depends(get_db)):
 
 
 @ciudad_api.put('/{id}', response_model=Ciudad)
-def modificar(id:int, datos:Ciudad, db:Session = Depends(get_db)):
+def modificar(id:int, datos:CiudadSinId, db:Session = Depends(get_db)):
     result = ciudad_repo.modificar(db, id, datos)
     if result is None:
         raise HTTPException(status_code=404, detail='Ciudad no encontrada')

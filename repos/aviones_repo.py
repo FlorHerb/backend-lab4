@@ -8,13 +8,16 @@ class AvionRepo():
         return db.execute(select(AvionBD)).scalars().all()
     
     def get_by_id(self, db: Session, id: str):
-        result = db.execute(select(AvionBD).where(AvionBD.id == id)).scalar()
+        result = db.execute(select(AvionBD).where(AvionBD.codigo == id)).scalar()
         return result
 
     def agregar(self, db:Session, datos:Avion): 
         nueva_entidad: AvionBD = AvionBD(**datos.dict()) #devuelve todos los atributos del objeto como un diccionario. el ** es para asignar los elementos de datos a nueva_entidad
-        db.add(nueva_entidad)
-        db.commit()
+        if len(nueva_entidad.codigo) == 3:
+           db.add(nueva_entidad)
+           db.commit() 
+        else:
+            nueva_entidad= None
         return nueva_entidad
 
     def modificar(self, db:Session, id:str, datos:Avion): 

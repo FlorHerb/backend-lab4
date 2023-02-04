@@ -7,4 +7,4 @@ class AeropuertoBD(BaseBd):
     codigo= Column(String(4), primary_key=True)
     nombre= Column(String(50), nullable=False)
     id_ciudad = Column(Integer, ForeignKey('ciudades.id'))
-    ciudad = relationship('CiudadBD',cascade="all, delete-orphan")
+    ciudad = relationship('CiudadBD')

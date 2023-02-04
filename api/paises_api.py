@@ -27,7 +27,7 @@ def nuevo(datos:PaisSinId, db:Session = Depends(get_db)):
 
 
 @pais_api.put('/{id}', response_model=Pais)
-def modificar(id:int, datos:Pais, db:Session = Depends(get_db)):
+def modificar(id:int, datos:PaisSinId, db:Session = Depends(get_db)):
     result = pais_repo.modificar(db, id, datos)
     if result is None:
         raise HTTPException(status_code=404, detail='Pais no encontrado')

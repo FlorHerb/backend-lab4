@@ -14,7 +14,7 @@ def get_all(db:Session = Depends(get_db)):
 
 @asiento_api.get('/{cod}', response_model=Asiento)
 def get_by_vuelo(cod: str, db:Session = Depends(get_db)):
-    result = asiento_repo.get_by_id(db, cod)
+    result = asiento_repo.get_by_vuelo(db, cod)
     if result is None:
         raise HTTPException(status_code=404, detail='Asiento no encontrado')
     return result

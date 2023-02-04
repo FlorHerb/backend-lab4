@@ -4,16 +4,21 @@ from modelos.vuelos_bd import VueloBD
 from modelos.vuelos import Vuelo
 from modelos.aeropuertos_bd import AeropuertoBD
 from modelos.aviones_bd import AvionBD
+from sqlalchemy.orm import aliased
+from sqlalchemy.sql.expression import join
 
 class VueloRepo():
     def get_all(self, db:Session ):
+
         return db.execute(select(VueloBD, AeropuertoBD, AvionBD)
                           .join(AeropuertoBD, isouter=True)
                           .join(AeropuertoBD, isouter=True)
                           .join(AvionBD,isouter=True)).scalars().all()
+      
+      
     
     def get_by_id(self, db: Session, id: str):
-        result = db.execute(select(VueloBD).where(VueloBD.id == id)).scalar()
+        result = db.execute(select(VueloBD).where(VueloBD.codigo == id)).scalar()
         return result
 
     def agregar(self, db:Session, datos:Vuelo): 

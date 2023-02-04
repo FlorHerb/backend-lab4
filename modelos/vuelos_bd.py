@@ -12,7 +12,8 @@ class VueloBD(BaseBd):
     cod_avion = Column(String(3), ForeignKey('aviones.codigo'))
     
     avion= relationship('AvionBD')
-    origen_aero= relationship('AeropuertoBD')
-    destino_aero=relationship('AeropuertoBD')
+    origen_aero= relationship('AeropuertoBD', primaryjoin="AeropuertoBD.codigo==VueloBD.cod_origen_aero")
+    destino_aero=relationship('AeropuertoBD', primaryjoin="AeropuertoBD.codigo==VueloBD.cod_destino_aero")
+
     
    
