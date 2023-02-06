@@ -12,7 +12,7 @@ def get_all(db:Session = Depends(get_db)):
     result = asiento_repo.get_all(db)
     return result
 
-@asiento_api.get('/{cod}', response_model=Asiento)
+@asiento_api.get('/{cod}', response_model=list[Asiento])
 def get_by_vuelo(cod: str, db:Session = Depends(get_db)):
     result = asiento_repo.get_by_vuelo(db, cod)
     if result is None:

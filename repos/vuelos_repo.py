@@ -23,7 +23,12 @@ class VueloRepo():
 
     def agregar(self, db:Session, datos:Vuelo): 
         nueva_entidad: VueloBD = VueloBD(**datos.dict()) #devuelve todos los atributos del objeto como un diccionario. el ** es para asignar los elementos de datos a nueva_entidad
-        if len(nueva_entidad.codigo) == 5:
+        
+        control:VueloBD = db.execute(select(VueloBD)
+                                     .where(VueloBD.cod_origen_aero == nueva_entidad.cod_origen_aero
+                                            ,VueloBD.fecha == nueva_entidad.fecha
+                                            ,VueloBD.cod_avion == nueva_entidad.cod_avion)).scalar()
+        if len(nueva_entidad.codigo) == 5 and control == None:
            db.add(nueva_entidad)
            db.commit() 
         else:

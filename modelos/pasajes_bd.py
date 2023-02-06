@@ -7,6 +7,6 @@ class PasajeBD(BaseBd):
     id = Column(Integer, primary_key=True)
     cod_vuelo= Column(String(5), nullable=False)
     nro_asiento= Column(Integer, nullable=False)
-    id_pasajero= Column(Integer, ForeignKey('pasajeros.dni'))
+    id_pasajero= Column(Integer, ForeignKey('pasajeros.dni', ondelete="CASCADE"))
     pasajero= relationship('PasajeroBD')
     asiento = relationship('AsientoBD',back_populates='pasaje',uselist=False)
