@@ -7,5 +7,6 @@ class AsientoBD(BaseBd):
     id= Column(Integer,primary_key=True)
     num_asiento= Column(Integer, nullable=False)
     cod_vuelo= Column(String(5), ForeignKey('vuelos.codigo'))
-    id_pasaje= Column(Integer, ForeignKey('pasajes.id'), default=0)
+    id_pasaje= Column(Integer, ForeignKey('pasajes.id'), nullable=True)
     pasaje = relationship('PasajeBD',back_populates='asiento',uselist=False)
+    

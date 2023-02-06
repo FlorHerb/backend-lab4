@@ -39,13 +39,24 @@ class AsientoRepo():
         db.commit()
         return entidad
     
-    def modif_por_pasaje(self, db:Session, id_pasaje:int):
-        entidad:AsientoBD =  db.execute(select(AsientoBD).where(AsientoBD.id_pasaje == id_pasaje)).scalar()
+    def modif_por_pasaje(self, db:Session, pasaje_id:int, nro_asiento:int, cod_vuelo:str):
+        entidad:AsientoBD =  db.execute(select(AsientoBD)
+                                        .where(AsientoBD.cod_vuelo == cod_vuelo, 
+                                      AsientoBD.num_asiento == nro_asiento)).scalar()
         if entidad is None:
             return None
-        setattr(entidad,id_pasaje,0)
+        setattr(entidad,"id_pasaje",pasaje_id)
         db.commit()   
         return entidad
+    
+    def modif_borrar_pasaje(self, db:Session, id_pasaje:int):
+        entidad:AsientoBD = db.execute(select(AsientoBD).where(AsientoBD.id_pasaje == id_pasaje)).scalar()
+        if entidad is None:
+            return None
+        setattr(entidad,"id_pasaje",None)
+        db.commit()   
+        return entidad
+        
     
     
     

@@ -8,3 +8,5 @@ class AvionBD(BaseBd):
     marca = Column(String(50), nullable= False)
     modelo = Column(String(50), nullable=False)
     capacidad = Column(Integer, nullable=False)
+    
+    vuelos= relationship("VueloBD", back_populates='avion',cascade="save-update")

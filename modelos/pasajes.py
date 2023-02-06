@@ -6,7 +6,7 @@ class PasajeSinCod(BaseModel):
     cod_vuelo: str
     nro_asiento: int
     id_pasajero: int
-    pasajero: Pasajero = None
+
 
     class Config:
         orm_mode = True
@@ -14,3 +14,4 @@ class PasajeSinCod(BaseModel):
 
 class Pasaje(PasajeSinCod):
     id: int
+    pasajero: Pasajero = None

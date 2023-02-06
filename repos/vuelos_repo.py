@@ -9,24 +9,27 @@ from sqlalchemy.sql.expression import join
 
 class VueloRepo():
     def get_all(self, db:Session ):
-
-        return db.execute(select(VueloBD, AeropuertoBD, AvionBD)
-                          .join(AeropuertoBD, isouter=True)
-                          .join(AeropuertoBD, isouter=True)
-                          .join(AvionBD,isouter=True)).scalars().all()
+        origen=aliased(AeropuertoBD)
+        destino=aliased(AeropuertoBD)
+        return db.execute(select(VueloBD)
+                         .outerjoin(origen, VueloBD.cod_origen_aero == origen.codigo)
+                         .outerjoin(destino,VueloBD.cod_destino_aero == destino.codigo)
+                         .outerjoin(AvionBD)).scalars().all()
       
       
-    
     def get_by_id(self, db: Session, id: str):
         result = db.execute(select(VueloBD).where(VueloBD.codigo == id)).scalar()
         return result
 
     def agregar(self, db:Session, datos:Vuelo): 
         nueva_entidad: VueloBD = VueloBD(**datos.dict()) #devuelve todos los atributos del objeto como un diccionario. el ** es para asignar los elementos de datos a nueva_entidad
-        db.add(nueva_entidad)
-        db.commit()
+        if len(nueva_entidad.codigo) == 5:
+           db.add(nueva_entidad)
+           db.commit() 
+        else:
+            nueva_entidad= None
         return nueva_entidad
-
+    
     def modificar(self, db:Session, id:str, datos:Vuelo): 
         entidad:VueloBD = self.get_by_id(db, id)
         if entidad is None:

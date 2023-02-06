@@ -6,6 +6,7 @@ from repos.pasajes_repo import PasajeRepo
 from modelos.pasajes import PasajeSinCod
 from repos.asientos_repo import AsientoRepo
 
+
 pasaje_api = APIRouter(prefix='/pasajes', tags=['pasajes'])
 pasaje_repo = PasajeRepo()
 asiento_repo = AsientoRepo()
@@ -25,6 +26,8 @@ def get_by_id(id: int, db:Session = Depends(get_db)):
 @pasaje_api.post('', response_model=Pasaje, status_code=201)
 def nuevo(datos:PasajeSinCod, db:Session = Depends(get_db)):
     result = pasaje_repo.agregar(db, datos)
+    if result != None:
+        asiento = asiento_repo.modif_por_pasaje(db, result.id, result.nro_asiento, result.cod_vuelo)
     return result
 
 
@@ -38,9 +41,8 @@ def modificar(id:int, datos:Pasaje, db:Session = Depends(get_db)):
 
 @pasaje_api.delete('/{id}', status_code=204)
 def borrar(id:int, db:Session = Depends(get_db)):
-    asiento_repo.modif_por_pasaje(db,id)
+    asiento_repo.modif_borrar_pasaje(db,id)
     result = pasaje_repo.borrar(db, id)
     if result is None:
         raise HTTPException(status_code=404, detail='Pasaje no encontrado')
-
     return

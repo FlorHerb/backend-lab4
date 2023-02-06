@@ -6,10 +6,13 @@ from repos.vuelos_repo import VueloRepo
 from repos.asientos_repo import AsientoRepo
 from modelos.asientos import AsientoSinCod
 from modelos.vuelos import VueloSinCod
+from repos.aviones_repo import AvionRepo
+from modelos.aviones import Avion
 
 vuelo_api = APIRouter(prefix='/vuelos', tags=['vuelos'])
 vuelo_repo = VueloRepo()
 asientos_repo = AsientoRepo()
+avion_repo= AvionRepo()
 
 @vuelo_api.get('', response_model=list[Vuelo])
 def get_all(db:Session = Depends(get_db)):
@@ -26,13 +29,16 @@ def get_by_id(id: str, db:Session = Depends(get_db)):
 @vuelo_api.post('', response_model=Vuelo, status_code=201)
 def nuevo(datos:Vuelo, db:Session = Depends(get_db)):
     result = vuelo_repo.agregar(db, datos)
-    asiento:AsientoSinCod = AsientoSinCod(num_asiento=0,cod_vuelo='CCC',id_pasaje=0)
-    
-    for i in range(1,datos.avion.capacidad+1):
+    if result is None:
+        raise HTTPException(status_code=400,detail='El largo del código es incorrecto')
+    avion: Avion=avion_repo.get_by_id(db,datos.cod_avion)
+    asiento:AsientoSinCod = AsientoSinCod(num_asiento=0,cod_vuelo='CCC',id_pasaje=None)
+    for i in range(1,avion.capacidad+1):
         asiento.num_asiento=i
         asiento.cod_vuelo=datos.codigo
-        asiento.id_pasaje=0
+        asiento.id_pasaje=None
         asientos_repo.agregar(db,asiento)
+        
     return result
 
 

@@ -9,8 +9,7 @@ class VueloSinCod(BaseModel):
     cod_destino_aero: str
     fecha: date
     hora: time
-    cod_avion: str
-    avion: Optional[Avion]= None
+    cod_avion: str = None
 
     class Config:
         orm_mode = True
@@ -20,5 +19,6 @@ class Vuelo(VueloSinCod):
     
     
 class VueloConObj(Vuelo):
+    avion: Avion
     origen_aero : Aeropuerto = None
     destino_aero : Aeropuerto = None        

@@ -15,6 +15,7 @@ class PasajeRepo():
     def agregar(self, db:Session, datos:PasajeSinCod): 
         nueva_entidad: PasajeBD = PasajeBD(**datos.dict()) #devuelve todos los atributos del objeto como un diccionario. el ** es para asignar los elementos de datos a nueva_entidad
         db.add(nueva_entidad)
+        
         db.commit()
         return nueva_entidad
 
