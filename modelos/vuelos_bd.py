@@ -13,7 +13,9 @@ class VueloBD(BaseBd):
     avion= relationship('AvionBD',back_populates='vuelos',cascade='save-update')
     origen_aero= relationship('AeropuertoBD',foreign_keys='VueloBD.cod_origen_aero')
     destino_aero=relationship('AeropuertoBD',foreign_keys='VueloBD.cod_destino_aero')
+    pasajes= relationship('PasajeBD', cascade="all, delete-orphan")
     asientos= relationship('AsientoBD', cascade="all, delete-orphan")
+    
     
     #origen_aero= relationship('AeropuertoBD', primaryjoin="AeropuertoBD.codigo==VueloBD.cod_origen_aero")
     #destino_aero=relationship('AeropuertoBD', primaryjoin="AeropuertoBD.codigo==VueloBD.cod_destino_aero")

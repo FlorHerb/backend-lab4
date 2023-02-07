@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from database import get_db
 from sqlalchemy.orm import Session
-from modelos.pasajeros import Pasajero
+from modelos.pasajeros import Pasajero, PasajeroSinId
 from repos.pasajeros_repo import PasajeroRepo
 
 pasajero_api = APIRouter(prefix='/pasajeros', tags=['pasajeros'])
@@ -26,7 +26,7 @@ def nuevo(datos:Pasajero, db:Session = Depends(get_db)):
 
 
 @pasajero_api.put('/{id}', response_model=Pasajero)
-def modificar(id:int, datos:Pasajero, db:Session = Depends(get_db)):
+def modificar(id:int, datos:PasajeroSinId, db:Session = Depends(get_db)):
     result = pasajero_repo.modificar(db, id, datos)
     if result is None:
         raise HTTPException(status_code=404, detail='Pasajero no encontrado')

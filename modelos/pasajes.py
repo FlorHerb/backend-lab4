@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from modelos.pasajeros import Pasajero
+from modelos.vuelos import Vuelo
 
 
 class PasajeSinCod(BaseModel):  
@@ -15,3 +16,4 @@ class PasajeSinCod(BaseModel):
 class Pasaje(PasajeSinCod):
     id: int
     pasajero: Pasajero = None
+    vuelo : Vuelo = None

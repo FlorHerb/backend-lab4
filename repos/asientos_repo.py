@@ -9,8 +9,9 @@ class AsientoRepo():
         return db.execute(select(AsientoBD, PasajeBD).join(PasajeBD, isouter=True)).scalars().all()
     
     def get_by_vuelo(self, db:Session, cod_vuelo:str):
-        result= db.execute(select(AsientoBD, PasajeBD).join(PasajeBD, isouter=True).where(AsientoBD.cod_vuelo == cod_vuelo)).scalars().all()
+        result= db.execute(select(AsientoBD, PasajeBD).join(PasajeBD, isouter=True).where(AsientoBD.cod_vuelo == cod_vuelo).order_by(AsientoBD.num_asiento)).scalars().all()
         return result
+
     
     def get_by_id(self, db: Session, id: int):
         result = db.execute(select(AsientoBD).where(AsientoBD.id == id)).scalar()

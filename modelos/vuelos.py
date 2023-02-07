@@ -5,11 +5,11 @@ from modelos.aeropuertos import Aeropuerto
 from typing import Optional
 
 class VueloSinCod(BaseModel):
-    cod_origen_aero: str = None
-    cod_destino_aero: str =None
+    cod_origen_aero: str 
+    cod_destino_aero: str 
     fecha: date
     hora: time
-    cod_avion: str = None
+    cod_avion: str 
 
     class Config:
         orm_mode = True
@@ -19,6 +19,6 @@ class Vuelo(VueloSinCod):
     
     
 class VueloConObj(Vuelo):
-    avion: Avion
+    avion: Avion = None
     origen_aero : Aeropuerto = None
     destino_aero : Aeropuerto = None        
