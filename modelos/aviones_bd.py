@@ -9,4 +9,4 @@ class AvionBD(BaseBd):
     modelo = Column(String(50), nullable=False)
     capacidad = Column(Integer, nullable=False)
     
-    vuelos= relationship("VueloBD", back_populates='avion',cascade="save-update")
+    vuelos= relationship("VueloBD", back_populates='avion',cascade="all, delete-orphan")

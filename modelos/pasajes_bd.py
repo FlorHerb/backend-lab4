@@ -10,4 +10,4 @@ class PasajeBD(BaseBd):
     id_pasajero= Column(Integer, ForeignKey('pasajeros.dni'))
     pasajero= relationship('PasajeroBD')
     asiento = relationship('AsientoBD',back_populates='pasaje',uselist=False)
-    vuelo= relationship('VueloBD')
+    vuelo= relationship('VueloBD',uselist=False)
