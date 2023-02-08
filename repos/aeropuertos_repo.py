@@ -3,6 +3,9 @@ from sqlalchemy import select
 from modelos.aeropuertos_bd import AeropuertoBD
 from modelos.ciudades_bd import CiudadBD
 from modelos.aeropuertos import Aeropuerto
+from repos.vuelos_repo import VueloRepo
+
+vuelo_repo= VueloRepo()
 
 class AeropuertoRepo():
     def get_all(self, db:Session ):
@@ -34,6 +37,7 @@ class AeropuertoRepo():
         entidad:AeropuertoBD = self.get_by_id(db, id)
         if entidad is None:
             return None
+        vuelo_repo.borrar_por_aeropuerto(db,id)
         db.delete(entidad)
         db.commit()
         return entidad

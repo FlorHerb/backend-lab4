@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import select, between
+from sqlalchemy import select, between, or_
 from modelos.vuelos_bd import VueloBD
 from modelos.vuelos import Vuelo
 from modelos.aeropuertos_bd import AeropuertoBD
@@ -63,3 +63,12 @@ class VueloRepo():
         db.delete(entidad)
         db.commit()
         return entidad
+    
+    def borrar_por_aeropuerto(self, db:Session, id:str):
+        entidades:list[VueloBD] = db.execute(select(VueloBD).where(or_(VueloBD.cod_origen_aero == id, VueloBD.cod_destino_aero == id))).scalars().all()
+        for entidad in entidades:
+            db.delete(entidad)
+        db.commit
+        
+        
+        
