@@ -32,7 +32,6 @@ app.include_router(pasaje_api)
 app.include_router(vuelo_api)
 
 
-
 origins = ["http://localhost:3000"]
 app.add_middleware(
     CORSMiddleware,
@@ -41,7 +40,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 
 if __name__ == '__main__':

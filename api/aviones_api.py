@@ -23,7 +23,7 @@ def get_by_id(id: str, db:Session = Depends(get_db)):
 def nuevo(datos:Avion, db:Session = Depends(get_db)):
     result = avion_repo.agregar(db, datos)
     if result is None:
-        raise HTTPException(status_code=400,detail='El largo del código es incorrecto')
+        raise HTTPException(status_code=400,detail='¡el código debe contener 3 caracteres!')
     return result
 
 
@@ -31,7 +31,7 @@ def nuevo(datos:Avion, db:Session = Depends(get_db)):
 def modificar(id:str, datos:Avion, db:Session = Depends(get_db)):
     result = avion_repo.modificar(db, id, datos)
     if result is None:
-        raise HTTPException(status_code=404, detail='Avion no encontrada')
+        raise HTTPException(status_code=404, detail='Avion no encontrado')
 
     return result
 
@@ -39,6 +39,6 @@ def modificar(id:str, datos:Avion, db:Session = Depends(get_db)):
 def borrar(id:str, db:Session = Depends(get_db)):
     result = avion_repo.borrar(db, id)
     if result is None:
-        raise HTTPException(status_code=404, detail='Avion no encontrada')
+        raise HTTPException(status_code=404, detail='Avion no encontrado')
 
     return

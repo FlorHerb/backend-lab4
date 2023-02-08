@@ -24,7 +24,7 @@ def get_by_id(id: str, db:Session = Depends(get_db)):
 def nuevo(datos:AeropuertoSinCod, db:Session = Depends(get_db)):
     result = aeropuerto_repo.agregar(db, datos)
     if result is None:
-        raise HTTPException(status_code=400,detail='El largo del código es incorrecto')
+        raise HTTPException(status_code=400,detail='¡el código debe contener 4 caracteres!')
     return result
 
 
